@@ -1,0 +1,32 @@
+name: Check Syntax
+
+on:
+  push:
+    branches:
+      - check_syntax
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11"]
+    
+    steps:
+    - name : Checkout code
+      uses : actions/checkout@v2
+
+    - name: Update pip
+      run: python -m pip install --upgrade pip
+    
+    - name: Install flake8
+      run: python -m pip install flake8
+
+    - name: Run flake8
+      run: flake8 .
+
+    - name: Display Python version
+      run: python --version
+        
+    - name : Run tests 
+      run : python -m unittest test_app.py
